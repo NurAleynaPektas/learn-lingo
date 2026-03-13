@@ -1,0 +1,43 @@
+.header {
+  max-width: 1184px;
+  margin: 0 auto;
+  padding: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #121417;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.login {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+}
+
+.register {
+  background: #121417;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+}
