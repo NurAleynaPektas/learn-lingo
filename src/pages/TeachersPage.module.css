@@ -1,0 +1,31 @@
+.container {
+  max-width: 1184px;
+  margin: 0 auto;
+  padding: 40px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.filters {
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loadMore {
+  margin: 0 auto;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  background: #f4c550;
+  font-weight: 600;
+  cursor: pointer;
+}

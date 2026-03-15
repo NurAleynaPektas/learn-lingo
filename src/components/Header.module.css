@@ -67,7 +67,9 @@
 
 .login {
   background: transparent;
-  border: none;
+  border: 2px solid #f4c550;
+   padding: 10px 16px;
+   border-radius: 10px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
