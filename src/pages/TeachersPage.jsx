@@ -1,35 +1,30 @@
+import { useState } from "react";
 import css from "./TeachersPage.module.css";
 import TeacherCard from "../components/TeacherCard";
+import teachers from "../data/teachers.json";
 
 export default function TeachersPage() {
-  const teachers = [
-    {
-      name: "John",
-      surname: "Doe",
-      languages: ["English"],
-      price_per_hour: 30,
-      experience: "5 years experience",
-    },
-    {
-      name: "Anna",
-      surname: "Smith",
-      languages: ["Spanish", "English"],
-      price_per_hour: 25,
-      experience: "3 years experience",
-    },
-  ];
+  const [visible, setVisible] = useState(4);
+
+  const handleLoadMore = () => {
+    setVisible((prev) => prev + 4);
+  };
 
   return (
     <section className={css.container}>
       <div className={css.filters}>Filters will be here</div>
 
       <div className={css.list}>
-        {teachers.map((teacher, i) => (
-          <TeacherCard key={i} teacher={teacher} />
+        {teachers.slice(0, visible).map((teacher, index) => (
+          <TeacherCard key={index} teacher={teacher} />
         ))}
       </div>
 
-      <button className={css.loadMore}>Load more</button>
+      {visible < teachers.length && (
+        <button className={css.loadMore} onClick={handleLoadMore}>
+          Load more
+        </button>
+      )}
     </section>
   );
 }

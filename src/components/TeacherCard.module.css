@@ -50,4 +50,24 @@
   color: #f4c550;
   font-weight: 600;
   cursor: pointer;
+}.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.heart {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.heart.active {
+  color: #f4c550;
 }

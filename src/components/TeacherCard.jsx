@@ -1,6 +1,9 @@
+import { useState } from "react";
 import css from "./TeacherCard.module.css";
 
 export default function TeacherCard({ teacher }) {
+  const [fav, setFav] = useState(false);
+
   return (
     <div className={css.card}>
       <div className={css.top}>
@@ -13,7 +16,16 @@ export default function TeacherCard({ teacher }) {
           <p className={css.lang}>{teacher.languages.join(", ")}</p>
         </div>
 
-        <div className={css.price}>{teacher.price_per_hour}$ / hour</div>
+        <div className={css.right}>
+          <span className={css.price}>{teacher.price_per_hour}$ / hour</span>
+
+          <button
+            className={`${css.heart} ${fav ? css.active : ""}`}
+            onClick={() => setFav(!fav)}
+          >
+            ♥
+          </button>
+        </div>
       </div>
 
       <p className={css.desc}>{teacher.experience}</p>

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "John",
+    "surname": "Doe",
+    "languages": ["English"],
+    "price_per_hour": 30,
+    "experience": "5 years experience"
+  },
+  {
+    "name": "Anna",
+    "surname": "Smith",
+    "languages": ["Spanish", "English"],
+    "price_per_hour": 25,
+    "experience": "3 years experience"
+  },
+  {
+    "name": "Michael",
+    "surname": "Brown",
+    "languages": ["German"],
+    "price_per_hour": 28,
+    "experience": "4 years experience"
+  }
+]
