@@ -23,6 +23,7 @@ export default function Header() {
         <nav className={`${css.nav} ${open ? css.open : ""}`}>
           <Link to="/">Home</Link>
           <Link to="/teachers">Teachers</Link>
+          <Link to="/favorites">Favorites</Link>
 
           <div className={css.mobileActions}>
             <button className={css.login}>LOG IN</button>

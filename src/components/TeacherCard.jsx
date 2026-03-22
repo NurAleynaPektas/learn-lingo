@@ -1,8 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import css from "./TeacherCard.module.css";
 
 export default function TeacherCard({ teacher }) {
   const [fav, setFav] = useState(false);
+
+  // SAYFA AÇILINCA FAVORİYİ OKU
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (stored.includes(teacher.id)) {
+      setFav(true);
+    }
+  }, [teacher.id]);
+
+  // FAVORİ DEĞİŞİNCE STORAGE GÜNCELLE
+  const toggleFav = () => {
+    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    let updated;
+
+    if (stored.includes(teacher.id)) {
+      updated = stored.filter((id) => id !== teacher.id);
+      setFav(false);
+    } else {
+      updated = [...stored, teacher.id];
+      setFav(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
 
   return (
     <div className={css.card}>
@@ -21,7 +46,7 @@ export default function TeacherCard({ teacher }) {
 
           <button
             className={`${css.heart} ${fav ? css.active : ""}`}
-            onClick={() => setFav(!fav)}
+            onClick={toggleFav}
           >
             ♥
           </button>

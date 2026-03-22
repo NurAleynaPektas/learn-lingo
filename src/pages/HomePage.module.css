@@ -30,6 +30,7 @@
   border: none;
   background: #f4c550;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .right {
