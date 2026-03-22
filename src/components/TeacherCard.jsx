@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import css from "./TeacherCard.module.css";
-
+import iziToast from "izitoast";
 export default function TeacherCard({ teacher }) {
   const [fav, setFav] = useState(false);
 
@@ -13,21 +13,28 @@ export default function TeacherCard({ teacher }) {
   }, [teacher.id]);
 
   // FAVORİ DEĞİŞİNCE STORAGE GÜNCELLE
-  const toggleFav = () => {
-    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+ const toggleFav = () => {
+   const user = localStorage.getItem("user");
 
-    let updated;
+   if (!user) iziToast.info({
+     title: "Login required",
+     message: "Please log in to use favorites",
+   });
 
-    if (stored.includes(teacher.id)) {
-      updated = stored.filter((id) => id !== teacher.id);
-      setFav(false);
-    } else {
-      updated = [...stored, teacher.id];
-      setFav(true);
-    }
+   const stored = JSON.parse(localStorage.getItem("favorites")) || [];
 
-    localStorage.setItem("favorites", JSON.stringify(updated));
-  };
+   let updated;
+
+   if (stored.includes(teacher.id)) {
+     updated = stored.filter((id) => id !== teacher.id);
+     setFav(false);
+   } else {
+     updated = [...stored, teacher.id];
+     setFav(true);
+   }
+
+   localStorage.setItem("favorites", JSON.stringify(updated));
+ };
 
   return (
     <div className={css.card}>
