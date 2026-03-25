@@ -1,0 +1,52 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* LIST */
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* EMPTY STATE */
+.empty {
+  text-align: center;
+  margin-top: 80px;
+  font-size: 18px;
+  color: #8a8a8a;
+}
+
+/* TABLET */
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 32px;
+  }
+
+  .list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .empty {
+    font-size: 20px;
+  }
+}
+
+/* DESKTOP */
+@media screen and (min-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+
+  .list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .empty {
+    font-size: 22px;
+  }
+}

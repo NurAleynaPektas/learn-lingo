@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(false);
   const navigate = useNavigate();
 
   const closeMenu = () => setOpen(false);
@@ -19,24 +19,36 @@ export default function Header() {
     return () => document.removeEventListener("keydown", escClose);
   }, []);
 
-  // user kontrol
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(true);
-    }
+    const checkUser = () => {
+      const storedUser = localStorage.getItem("user");
+      setUser(!!storedUser);
+    };
+
+    checkUser();
+
+    window.addEventListener("userChanged", checkUser);
+
+    return () => window.removeEventListener("userChanged", checkUser);
   }, []);
 
-  // LOGIN 
+  // LOGIN
   const goToLogin = () => {
     navigate("/login");
+    closeMenu();
+  };
+
+  // REGISTER
+  const goToRegister = () => {
+    navigate("/register");
     closeMenu();
   };
 
   // LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser(null);
+    window.dispatchEvent(new Event("userChanged"));
+    closeMenu();
     navigate("/");
   };
 
@@ -69,7 +81,9 @@ export default function Header() {
                 <button className={css.login} onClick={goToLogin}>
                   Log in
                 </button>
-                <button className={css.register}>Registration</button>
+                <button className={css.register} onClick={goToRegister}>
+                  Registration
+                </button>
               </>
             )}
           </div>
@@ -85,11 +99,14 @@ export default function Header() {
               <button className={css.login} onClick={goToLogin}>
                 Log in
               </button>
-              <button className={css.register}>Registration</button>
+              <button className={css.register} onClick={goToRegister}>
+                Registration
+              </button>
             </>
           )}
 
           <button
+            type="button"
             className={css.hamburger}
             onClick={() => setOpen((prev) => !prev)}
           >

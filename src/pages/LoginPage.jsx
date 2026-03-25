@@ -28,6 +28,7 @@ export default function LoginPage() {
 
   const onSubmit = () => {
     localStorage.setItem("user", "true");
+    window.dispatchEvent(new Event("userChanged"));
 
     iziToast.success({
       title: "Success",

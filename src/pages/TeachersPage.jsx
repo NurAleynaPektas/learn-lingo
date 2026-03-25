@@ -16,7 +16,13 @@ export default function TeachersPage() {
 
       <div className={css.list}>
         {teachers.slice(0, visible).map((teacher, index) => (
-          <TeacherCard key={index} teacher={teacher} />
+          <TeacherCard
+            key={index}
+            teacher={{
+              ...teacher,
+              id: teacher.name + teacher.surname, // 🔥 STABLE ID
+            }}
+          />
         ))}
       </div>
 
