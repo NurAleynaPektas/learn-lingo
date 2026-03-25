@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import css from "./Header.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   const closeMenu = () => setOpen(false);
 
@@ -18,7 +19,7 @@ export default function Header() {
     return () => document.removeEventListener("keydown", escClose);
   }, []);
 
-  // sayfa açılınca user kontrol
+  // user kontrol
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -26,16 +27,17 @@ export default function Header() {
     }
   }, []);
 
-  // login
-  const handleLogin = () => {
-    localStorage.setItem("user", "true");
-    setUser(true);
+  // LOGIN 
+  const goToLogin = () => {
+    navigate("/login");
+    closeMenu();
   };
 
-  // logout
+  // LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    navigate("/");
   };
 
   return (
@@ -47,14 +49,16 @@ export default function Header() {
           <Link to="/" onClick={closeMenu}>
             Home
           </Link>
+
           <Link to="/teachers" onClick={closeMenu}>
             Teachers
           </Link>
+
           <Link to="/favorites" onClick={closeMenu}>
             Favorites
           </Link>
 
-          {/* MOBILE MENU ACTIONS */}
+          {/* MOBILE MENU */}
           <div className={css.mobileActions}>
             {user ? (
               <button className={css.login} onClick={handleLogout}>
@@ -62,7 +66,7 @@ export default function Header() {
               </button>
             ) : (
               <>
-                <button className={css.login} onClick={handleLogin}>
+                <button className={css.login} onClick={goToLogin}>
                   Log in
                 </button>
                 <button className={css.register}>Registration</button>
@@ -78,7 +82,7 @@ export default function Header() {
             </button>
           ) : (
             <>
-              <button className={css.login} onClick={handleLogin}>
+              <button className={css.login} onClick={goToLogin}>
                 Log in
               </button>
               <button className={css.register}>Registration</button>

@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import TeachersPage from "./pages/TeachersPage";
 import FavoritesPage from "./pages/FavoritesPage";
+import LoginPage from "./pages/LoginPage";
+
 function App() {
   return (
     <>
@@ -12,6 +14,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/teachers" element={<TeachersPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </>
   );
