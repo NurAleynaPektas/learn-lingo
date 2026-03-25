@@ -1,26 +1,54 @@
 [
-  { 
+  {
     "id": 1,
     "name": "John",
     "surname": "Doe",
     "languages": ["English"],
     "price_per_hour": 30,
-    "experience": "5 years experience"
+    "experience": "5 years experience",
+    "lesson_info": "Interactive lessons focused on speaking and fluency.",
+    "conditions": "Minimum 2 lessons per week.",
+    "reviews": [
+      {
+        "name": "Alice",
+        "comment": "Amazing teacher!"
+      },
+      {
+        "name": "Bob",
+        "comment": "Very clear explanations."
+      }
+    ]
   },
   {
-     "id": 2,
+    "id": 2,
     "name": "Anna",
     "surname": "Smith",
     "languages": ["Spanish", "English"],
     "price_per_hour": 25,
-    "experience": "3 years experience"
+    "experience": "3 years experience",
+    "lesson_info": "Friendly and structured lessons for beginners.",
+    "conditions": "Flexible schedule.",
+    "reviews": [
+      {
+        "name": "Chris",
+        "comment": "Very patient and kind."
+      }
+    ]
   },
   {
-     "id": 3,
+    "id": 3,
     "name": "Michael",
     "surname": "Brown",
     "languages": ["German"],
     "price_per_hour": 28,
-    "experience": "4 years experience"
+    "experience": "4 years experience",
+    "lesson_info": "Focus on grammar and pronunciation.",
+    "conditions": "Weekend availability.",
+    "reviews": [
+      {
+        "name": "Emma",
+        "comment": "Helped me improve quickly."
+      }
+    ]
   }
 ]

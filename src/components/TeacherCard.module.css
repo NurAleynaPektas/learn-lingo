@@ -70,4 +70,14 @@
 
 .heart.active {
   color: #f4c550;
+}.reviews {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.review {
+  font-size: 14px;
+  color: #555;
 }

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import css from "./Header.module.css";
 import { Link } from "react-router-dom";
+
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
   const closeMenu = () => setOpen(false);
 
+  // ESC ile kapatma
   useEffect(() => {
     const escClose = (e) => {
       if (e.key === "Escape") closeMenu();
@@ -15,27 +18,77 @@ export default function Header() {
     return () => document.removeEventListener("keydown", escClose);
   }, []);
 
+  // sayfa açılınca user kontrol
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(true);
+    }
+  }, []);
+
+  // login
+  const handleLogin = () => {
+    localStorage.setItem("user", "true");
+    setUser(true);
+  };
+
+  // logout
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
     <>
       <header className={css.header}>
         <div className={css.logo}>LearnLingo</div>
 
         <nav className={`${css.nav} ${open ? css.open : ""}`}>
-          <Link to="/">Home</Link>
-          <Link to="/teachers">Teachers</Link>
-          <Link to="/favorites">Favorites</Link>
+          <Link to="/" onClick={closeMenu}>
+            Home
+          </Link>
+          <Link to="/teachers" onClick={closeMenu}>
+            Teachers
+          </Link>
+          <Link to="/favorites" onClick={closeMenu}>
+            Favorites
+          </Link>
 
+          {/* MOBILE MENU ACTIONS */}
           <div className={css.mobileActions}>
-            <button className={css.login}>LOG IN</button>
-            <button className={css.register}>REGISTRATION</button>
+            {user ? (
+              <button className={css.login} onClick={handleLogout}>
+                Logout
+              </button>
+            ) : (
+              <>
+                <button className={css.login} onClick={handleLogin}>
+                  Log in
+                </button>
+                <button className={css.register}>Registration</button>
+              </>
+            )}
           </div>
         </nav>
 
         <div className={css.actions}>
-          <button className={css.login}>LOG IN</button>
-          <button className={css.register}>REGISTRATION</button>
+          {user ? (
+            <button className={css.login} onClick={handleLogout}>
+              Logout
+            </button>
+          ) : (
+            <>
+              <button className={css.login} onClick={handleLogin}>
+                Log in
+              </button>
+              <button className={css.register}>Registration</button>
+            </>
+          )}
 
-          <button className={css.hamburger} onClick={() => setOpen(!open)}>
+          <button
+            className={css.hamburger}
+            onClick={() => setOpen((prev) => !prev)}
+          >
             ☰
           </button>
         </div>
