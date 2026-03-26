@@ -6,6 +6,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
+// FIREBASE
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
 const schema = Yup.object({
   name: Yup.string()
     .required("Name is required")
@@ -35,18 +39,32 @@ export default function RegisterPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    localStorage.setItem("user", JSON.stringify(data));
+  const onSubmit = async (data) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
 
-    window.dispatchEvent(new Event("userChanged"));
+      await updateProfile(userCredential.user, {
+        displayName: data.name,
+      });
 
-    iziToast.success({
-      title: "Success",
-      message: "Registered successfully 🎉",
-      position: "topRight",
-    });
+      iziToast.success({
+        title: "Success",
+        message: "Registered successfully 🎉",
+        position: "topRight",
+      });
 
-    navigate("/teachers");
+      navigate("/teachers");
+    } catch (error) {
+      iziToast.error({
+        title: "Error",
+        message: error.message,
+        position: "topRight",
+      });
+    }
   };
 
   return (
@@ -54,7 +72,6 @@ export default function RegisterPage() {
       <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
         <h2 className={css.title}>Register</h2>
 
-        {/* NAME */}
         <div>
           <input
             type="text"
@@ -65,7 +82,6 @@ export default function RegisterPage() {
           {errors.name && <p className={css.error}>{errors.name.message}</p>}
         </div>
 
-        {/* EMAIL */}
         <div>
           <input
             type="email"
@@ -76,7 +92,6 @@ export default function RegisterPage() {
           {errors.email && <p className={css.error}>{errors.email.message}</p>}
         </div>
 
-        {/* PASSWORD */}
         <div>
           <input
             type="password"
@@ -89,7 +104,6 @@ export default function RegisterPage() {
           )}
         </div>
 
-        {/* CONFIRM PASSWORD */}
         <div>
           <input
             type="password"

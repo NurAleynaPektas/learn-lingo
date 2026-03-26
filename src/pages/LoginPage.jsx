@@ -6,10 +6,15 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
+//  FIREBASE
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 const schema = Yup.object({
   email: Yup.string()
     .required("Email is required")
     .email("Invalid email format"),
+
   password: Yup.string()
     .required("Password is required")
     .min(6, "Minimum 6 characters"),
@@ -26,17 +31,24 @@ export default function LoginPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
-    localStorage.setItem("user", "true");
-    window.dispatchEvent(new Event("userChanged"));
+  const onSubmit = async (data) => {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
 
-    iziToast.success({
-      title: "Success",
-      message: "Logged in successfully",
-      position: "topRight",
-    });
+      iziToast.success({
+        title: "Success",
+        message: "Logged in successfully",
+        position: "topRight",
+      });
 
-    navigate("/teachers");
+      navigate("/teachers");
+    } catch (error) {
+      iziToast.error({
+        title: "Error",
+        message: error.message,
+        position: "topRight",
+      });
+    }
   };
 
   return (

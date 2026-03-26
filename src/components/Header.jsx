@@ -2,14 +2,17 @@ import { useState, useEffect } from "react";
 import css from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 
+// FIREBASE
+import { auth } from "../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const closeMenu = () => setOpen(false);
 
-  // ESC ile kapatma
   useEffect(() => {
     const escClose = (e) => {
       if (e.key === "Escape") closeMenu();
@@ -20,16 +23,11 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const checkUser = () => {
-      const storedUser = localStorage.getItem("user");
-      setUser(!!storedUser);
-    };
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
 
-    checkUser();
-
-    window.addEventListener("userChanged", checkUser);
-
-    return () => window.removeEventListener("userChanged", checkUser);
+    return () => unsubscribe();
   }, []);
 
   // LOGIN
@@ -45,9 +43,8 @@ export default function Header() {
   };
 
   // LOGOUT
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    window.dispatchEvent(new Event("userChanged"));
+  const handleLogout = async () => {
+    await signOut(auth);
     closeMenu();
     navigate("/");
   };
@@ -91,9 +88,13 @@ export default function Header() {
 
         <div className={css.actions}>
           {user ? (
-            <button className={css.login} onClick={handleLogout}>
-              Logout
-            </button>
+            <div className={css.userBox}>
+              <span className={css.username}>{user.displayName || "User"}</span>
+
+              <button className={css.login} onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
           ) : (
             <>
               <button className={css.login} onClick={goToLogin}>
