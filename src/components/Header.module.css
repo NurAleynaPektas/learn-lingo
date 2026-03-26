@@ -50,7 +50,15 @@
 }
 
 /* ACTIONS */
-
+.userBox{
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.username{
+  font-weight: 700;
+  color: #0703fb;
+}
 .actions {
   display: flex;
   gap: 10px;
