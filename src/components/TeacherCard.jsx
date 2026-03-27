@@ -1,15 +1,28 @@
 import { useState, useEffect } from "react";
 import css from "./TeacherCard.module.css";
 import iziToast from "izitoast";
+import { auth } from "../firebase";
 
 export default function TeacherCard({ teacher }) {
   const [fav, setFav] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const teacherId = teacher.name + teacher.surname; 
+
   useEffect(() => {
     const updateFav = () => {
-      const stored = JSON.parse(localStorage.getItem("favorites")) || [];
-      setFav(stored.includes(teacher.id));
+      const user = auth.currentUser;
+
+      if (!user) {
+        setFav(false);
+        return;
+      }
+
+      const key = `favorites_${user.uid}`;
+
+      const stored = JSON.parse(localStorage.getItem(key)) || [];
+
+      setFav(stored.includes(teacherId));
     };
 
     updateFav();
@@ -19,10 +32,11 @@ export default function TeacherCard({ teacher }) {
     return () => {
       window.removeEventListener("favoritesChanged", updateFav);
     };
-  }, [teacher.id]);
+  }, [teacherId]);
 
+  // FAVORITE TOGGLE
   const toggleFav = () => {
-    const user = localStorage.getItem("user");
+    const user = auth.currentUser;
 
     if (!user) {
       iziToast.info({
@@ -33,16 +47,22 @@ export default function TeacherCard({ teacher }) {
       return;
     }
 
-    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
-    let updated = [];
+    const key = `favorites_${user.uid}`;
 
-    if (stored.includes(teacher.id)) {
-      updated = stored.filter((id) => id !== teacher.id);
+    const stored = JSON.parse(localStorage.getItem(key)) || [];
+
+    let updated;
+
+    if (stored.includes(teacherId)) {
+      updated = stored.filter((id) => id !== teacherId);
+      setFav(false);
     } else {
-      updated = [...stored, teacher.id];
+      updated = [...stored, teacherId];
+      setFav(true);
     }
 
-    localStorage.setItem("favorites", JSON.stringify(updated));
+    localStorage.setItem(key, JSON.stringify(updated));
+
     window.dispatchEvent(new Event("favoritesChanged"));
   };
 

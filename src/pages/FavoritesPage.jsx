@@ -2,18 +2,27 @@ import { useEffect, useState } from "react";
 import css from "./FavoritesPage.module.css";
 import TeacherCard from "../components/TeacherCard";
 import teachers from "../data/teachers.json";
+import { auth } from "../firebase";
 
 export default function FavoritesPage() {
   const [favoriteTeachers, setFavoriteTeachers] = useState([]);
 
   useEffect(() => {
     const updateFavorites = () => {
-      const storedFavorites =
-        JSON.parse(localStorage.getItem("favorites")) || [];
+      const user = auth.currentUser;
 
-     const filteredTeachers = teachers.filter((teacher) =>
-       storedFavorites.includes(teacher.name + teacher.surname),
-     );
+      if (!user) {
+        setFavoriteTeachers([]);
+        return;
+      }
+
+      const key = `favorites_${user.uid}`;
+
+      const storedFavorites = JSON.parse(localStorage.getItem(key)) || [];
+
+      const filteredTeachers = teachers.filter((teacher) =>
+        storedFavorites.includes(teacher.name + teacher.surname),
+      );
 
       setFavoriteTeachers(filteredTeachers);
     };
@@ -21,11 +30,9 @@ export default function FavoritesPage() {
     updateFavorites();
 
     window.addEventListener("favoritesChanged", updateFavorites);
-    window.addEventListener("userChanged", updateFavorites);
 
     return () => {
       window.removeEventListener("favoritesChanged", updateFavorites);
-      window.removeEventListener("userChanged", updateFavorites);
     };
   }, []);
 
@@ -34,7 +41,10 @@ export default function FavoritesPage() {
       {favoriteTeachers.length > 0 ? (
         <div className={css.list}>
           {favoriteTeachers.map((teacher) => (
-            <TeacherCard key={teacher.id} teacher={teacher} />
+            <TeacherCard
+              key={teacher.name + teacher.surname}
+              teacher={teacher}
+            />
           ))}
         </div>
       ) : (
