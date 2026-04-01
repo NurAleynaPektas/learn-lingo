@@ -1,14 +1,13 @@
 import css from "./RegisterPage.module.css";
 import { useNavigate } from "react-router-dom";
 import iziToast from "izitoast";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-
-// FIREBASE
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useState } from "react";
+import Loader from "../components/Loader";
 
 const schema = Yup.object({
   name: Yup.string()
@@ -30,6 +29,7 @@ const schema = Yup.object({
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -41,6 +41,8 @@ export default function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -64,62 +66,74 @@ export default function RegisterPage() {
         message: error.message,
         position: "topRight",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <section className={css.container}>
-      <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
-        <h2 className={css.title}>Register</h2>
+    <>
+      {loading && <Loader />}
 
-        <div>
-          <input
-            type="text"
-            placeholder="Name"
-            className={css.input}
-            {...register("name")}
-          />
-          {errors.name && <p className={css.error}>{errors.name.message}</p>}
-        </div>
+      <section className={css.container}>
+        <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
+          <h2 className={css.title}>Register</h2>
 
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            className={css.input}
-            {...register("email")}
-          />
-          {errors.email && <p className={css.error}>{errors.email.message}</p>}
-        </div>
+          {/* NAME */}
+          <div>
+            <input
+              type="text"
+              placeholder="Name"
+              className={css.input}
+              {...register("name")}
+            />
+            {errors.name && <p className={css.error}>{errors.name.message}</p>}
+          </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            className={css.input}
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className={css.error}>{errors.password.message}</p>
-          )}
-        </div>
+          {/* EMAIL */}
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              className={css.input}
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className={css.error}>{errors.email.message}</p>
+            )}
+          </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className={css.input}
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && (
-            <p className={css.error}>{errors.confirmPassword.message}</p>
-          )}
-        </div>
+          {/* PASSWORD */}
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              className={css.input}
+              {...register("password")}
+            />
+            {errors.password && (
+              <p className={css.error}>{errors.password.message}</p>
+            )}
+          </div>
 
-        <button type="submit" className={css.button}>
-          Register
-        </button>
-      </form>
-    </section>
+          {/* CONFIRM PASSWORD */}
+          <div>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className={css.input}
+              {...register("confirmPassword")}
+            />
+            {errors.confirmPassword && (
+              <p className={css.error}>{errors.confirmPassword.message}</p>
+            )}
+          </div>
+
+          <button type="submit" className={css.button}>
+            Register
+          </button>
+        </form>
+      </section>
+    </>
   );
 }
