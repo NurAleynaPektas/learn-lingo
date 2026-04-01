@@ -7,8 +7,9 @@ export default function TeacherCard({ teacher }) {
   const [fav, setFav] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const teacherId = teacher.name + teacher.surname; 
+  const teacherId = teacher.name + teacher.surname;
 
+  // FAVORITE DURUMU OKU
   useEffect(() => {
     const updateFav = () => {
       const user = auth.currentUser;
@@ -19,7 +20,6 @@ export default function TeacherCard({ teacher }) {
       }
 
       const key = `favorites_${user.uid}`;
-
       const stored = JSON.parse(localStorage.getItem(key)) || [];
 
       setFav(stored.includes(teacherId));
@@ -34,7 +34,7 @@ export default function TeacherCard({ teacher }) {
     };
   }, [teacherId]);
 
-  // FAVORITE TOGGLE
+  // FAVORITE TOGGLE 
   const toggleFav = () => {
     const user = auth.currentUser;
 
@@ -48,20 +48,36 @@ export default function TeacherCard({ teacher }) {
     }
 
     const key = `favorites_${user.uid}`;
-
     const stored = JSON.parse(localStorage.getItem(key)) || [];
 
     let updated;
 
+    // ZATEN VAR → REMOVE
     if (stored.includes(teacherId)) {
       updated = stored.filter((id) => id !== teacherId);
-      setFav(false);
-    } else {
-      updated = [...stored, teacherId];
-      setFav(true);
-    }
 
-    localStorage.setItem(key, JSON.stringify(updated));
+      localStorage.setItem(key, JSON.stringify(updated));
+      setFav(false);
+
+      iziToast.info({
+        title: "Removed",
+        message: "Removed from favorites",
+        position: "topRight",
+      });
+    }
+    // YOK → ADD
+    else {
+      updated = [...stored, teacherId];
+
+      localStorage.setItem(key, JSON.stringify(updated));
+      setFav(true);
+
+      iziToast.success({
+        title: "Added",
+        message: "Teacher added to favorites ",
+        position: "topRight",
+      });
+    }
 
     window.dispatchEvent(new Event("favoritesChanged"));
   };
