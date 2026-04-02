@@ -2,11 +2,9 @@
   max-width: 1184px;
   margin: 0 auto;
   padding: 16px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: relative;
   z-index: 100;
 }
@@ -49,7 +47,8 @@
 .nav a {
   text-decoration: none;
   color: #121417;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 17px;
 }
 
 /* ACTIONS */
@@ -59,7 +58,6 @@
   align-items: center;
 }
 .username {
-  font-weight: 700;
   color: #0703fb;
 }
 .actions {
