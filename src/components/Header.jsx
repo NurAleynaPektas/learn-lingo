@@ -52,7 +52,7 @@ export default function Header() {
   return (
     <>
       <header className={css.header}>
-        <div className={css.logo}>LearnLingo</div>
+       <Link to="/" className={css.logo}> LearnLingo </Link>
 
         <nav className={`${css.nav} ${open ? css.open : ""}`}>
           <Link to="/" onClick={closeMenu}>
