@@ -20,18 +20,18 @@ export default function TeachersPage() {
   };
 
   const languages = [...new Set(teachers.flatMap((t) => t.languages))];
+
   const levels = [...new Set(teachers.flatMap((t) => t.levels))];
   useEffect(() => {
     setLoading(true);
 
     const timer = setTimeout(() => {
       setLoading(false);
-      setVisible(4); 
+      setVisible(4);
     }, 400);
 
     return () => clearTimeout(timer);
   }, [filters]);
-
   const filteredTeachers = useMemo(() => {
     return teachers.filter((teacher) => {
       const matchLanguage =
@@ -39,9 +39,12 @@ export default function TeachersPage() {
 
       const matchLevel =
         !filters.level || teacher.levels.includes(filters.level);
-
       const matchPrice =
-        !filters.price || teacher.price_per_hour <= Number(filters.price);
+        !filters.price ||
+        (() => {
+          const [min, max] = filters.price.split("-").map(Number);
+          return teacher.price_per_hour >= min && teacher.price_per_hour <= max;
+        })();
 
       return matchLanguage && matchLevel && matchPrice;
     });
@@ -49,10 +52,8 @@ export default function TeachersPage() {
 
   return (
     <section className={css.container}>
-      {/* LOADER */}
       {loading && <Loader />}
 
-      {/* FILTERS */}
       <Filters
         filters={filters}
         setFilters={setFilters}
@@ -60,7 +61,6 @@ export default function TeachersPage() {
         levels={levels}
       />
 
-      {/* LIST */}
       <div className={css.list}>
         {filteredTeachers.slice(0, visible).map((teacher) => (
           <TeacherCard
@@ -73,7 +73,6 @@ export default function TeachersPage() {
         ))}
       </div>
 
-      {/* LOAD MORE */}
       {visible < filteredTeachers.length && (
         <button className={css.loadMore} onClick={handleLoadMore}>
           Load more

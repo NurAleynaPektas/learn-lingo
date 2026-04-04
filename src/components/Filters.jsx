@@ -55,9 +55,9 @@ export default function Filters({ filters, setFilters, languages, levels }) {
           className={css.select}
         >
           <option value="">Any price</option>
-          <option value="20">Up to $20</option>
-          <option value="30">Up to $30</option>
-          <option value="40">Up to $40</option>
+          <option value="0-20">0–20$</option>
+          <option value="21-30">21–30$</option>
+          <option value="31-50">31–50$</option>
         </select>
       </div>
     </div>
