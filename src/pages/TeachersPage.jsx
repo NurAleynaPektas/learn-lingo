@@ -1,11 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import css from "./TeachersPage.module.css";
 import TeacherCard from "../components/TeacherCard";
 import Filters from "../components/Filters";
 import teachers from "../data/teachers.json";
+import Loader from "../components/Loader";
 
 export default function TeachersPage() {
   const [visible, setVisible] = useState(4);
+  const [loading, setLoading] = useState(false);
 
   const [filters, setFilters] = useState({
     language: "",
@@ -17,12 +19,19 @@ export default function TeachersPage() {
     setVisible((prev) => prev + 4);
   };
 
-  // 🔥 UNIQUE DATA
   const languages = [...new Set(teachers.flatMap((t) => t.languages))];
-
   const levels = [...new Set(teachers.flatMap((t) => t.levels))];
+  useEffect(() => {
+    setLoading(true);
 
-  // 🔥 FILTER LOGIC
+    const timer = setTimeout(() => {
+      setLoading(false);
+      setVisible(4); 
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [filters]);
+
   const filteredTeachers = useMemo(() => {
     return teachers.filter((teacher) => {
       const matchLanguage =
@@ -40,7 +49,10 @@ export default function TeachersPage() {
 
   return (
     <section className={css.container}>
-      {/* 🔥 FILTERS */}
+      {/* LOADER */}
+      {loading && <Loader />}
+
+      {/* FILTERS */}
       <Filters
         filters={filters}
         setFilters={setFilters}

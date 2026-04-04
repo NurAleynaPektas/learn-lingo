@@ -16,9 +16,14 @@
 
   padding: 10px 40px 10px 14px;
   border-radius: 10px;
-  border: 2px solid #f4c550 ;
+  border: 1px solid #2c2c2c;
+
+  background: #1f1f1f;
+  color: #ffffff;
+
   font-size: 14px;
   cursor: pointer;
+
   transition: all 0.2s ease;
 }
 
@@ -29,7 +34,7 @@
 .select:focus {
   outline: none;
   border-color: #4f92f7;
-  box-shadow: none;
+  box-shadow: 0 0 0 2px rgba(79, 146, 247, 0.2);
 }
 
 .selectWrapper::after {
@@ -44,7 +49,6 @@
 }
 
 .select option {
-    cursor: pointer;
-  background: none;
-  color: #f4c550;
+  background: #1f1f1f;
+  color: #ffffff;
 }
