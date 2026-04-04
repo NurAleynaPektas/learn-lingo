@@ -8,44 +8,86 @@
   gap: 20px;
 }
 
+/* LEFT */
 .left {
-  background: #f8f8f8;
-  padding: 30px;
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  padding: 28px;
   border-radius: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
 }
 
 .left h1 {
-  font-size: 28px;
+  font-size: 26px;
   line-height: 1.2;
+  font-weight: 700;
+  color: #121212;
 }
 
 .left span {
   background: #f4c550;
+  padding: 0 6px;
+  border-radius: 6px;
 }
 
+.left p {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+/* BUTTON */
 .btn {
-  margin-top: 20px;
+  margin-top: 22px;
   padding: 14px 28px;
   border-radius: 12px;
   border: none;
+
   background: #f4c550;
+  color: #121212;
+
   font-weight: 600;
   cursor: pointer;
+
+  transition: all 0.25s ease;
 }
 
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 197, 80, 0.4);
+}
+
+/* RIGHT */
 .right {
-  background: #fbe9ba;
+  background: linear-gradient(135deg, #fbe9ba, #f4c550);
   border-radius: 24px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  overflow: hidden;
 }
 
+/* IMAGE */
 .image {
   width: 220px;
   display: block;
-}@media (min-width: 768px) {
+
+  transition: transform 0.3s ease;
+}
+
+.right:hover .image {
+  transform: scale(1.05);
+}
+
+/*TABLET*/
+
+@media (min-width: 768px) {
   .hero {
     flex-direction: row;
     padding: 30px;
@@ -57,7 +99,11 @@
   }
 
   .left h1 {
-    font-size: 36px;
+    font-size: 34px;
+  }
+
+  .left p {
+    font-size: 15px;
   }
 
   .right {
@@ -67,7 +113,11 @@
   .image {
     width: 300px;
   }
-}@media (min-width: 1020px) {
+}
+
+/*DESKTOP*/
+
+@media (min-width: 1024px) {
   .hero {
     padding: 40px;
   }
@@ -77,10 +127,14 @@
   }
 
   .left h1 {
-    font-size: 40px;
+    font-size: 42px;
+  }
+
+  .left p {
+    font-size: 16px;
   }
 
   .image {
-    width: 350px;
+    width: 360px;
   }
 }
