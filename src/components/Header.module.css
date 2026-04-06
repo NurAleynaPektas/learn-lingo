@@ -2,22 +2,28 @@
   max-width: 1184px;
   margin: 0 auto;
   padding: 16px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
+
+  position: sticky;
+  top: 0;
   z-index: 100;
+
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
 }
+
 
 .logo {
   font-family: "Pacifico", cursive;
   text-decoration: none;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
   color: #f4c550;
 }
 
-/* NAV */
 
 .nav {
   display: none;
@@ -41,25 +47,33 @@
   flex-direction: column;
   gap: 20px;
 
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
 }
 
 .nav a {
   text-decoration: none;
   color: #121417;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 16px;
+  position: relative;
 }
 
-/* ACTIONS */
-.userBox {
-  display: flex;
-  gap: 15px;
-  align-items: center;
+.nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #f4c550;
+  transition: 0.3s;
 }
-.username {
-  color: #0703fb;
+
+.nav a:hover::after {
+  width: 100%;
 }
+
+
 .actions {
   display: flex;
   gap: 10px;
@@ -71,7 +85,18 @@
   display: none;
 }
 
-/* LOGIN */
+
+.userBox {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.username {
+  font-weight: 600;
+  color: #333;
+}
+
 
 .login {
   background: transparent;
@@ -81,9 +106,12 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-/* REGISTER */
+.login:hover {
+  background: #f4c550;
+}
 
 .register {
   background: #121417;
@@ -93,9 +121,12 @@
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-/* HAMBURGER */
+.register:hover {
+  opacity: 0.8;
+}
 
 .hamburger {
   border: none;
@@ -104,7 +135,6 @@
   cursor: pointer;
 }
 
-/* MOBILE ACTIONS */
 
 .mobileActions {
   display: flex;
@@ -112,7 +142,6 @@
   gap: 12px;
 }
 
-/* BACKDROP */
 
 .backdrop {
   position: fixed;
@@ -128,13 +157,9 @@
     padding: 20px 24px;
   }
 
-  .logo {
-    font-size: 18px;
-  }
-
   .nav {
     display: flex;
-    gap: 24px;
+    gap: 28px;
     position: static;
   }
 
@@ -143,9 +168,7 @@
     flex-direction: row;
     padding: 0;
     background: transparent;
-    border: none;
     box-shadow: none;
-    width: auto;
   }
 
   .actions .login,
@@ -168,12 +191,12 @@
 
 /* DESKTOP */
 
-@media (min-width: 1020px) {
+@media (min-width: 1024px) {
   .header {
     padding: 24px 0;
   }
 
-  .register {
-    padding: 12px 20px;
+  .nav {
+    gap: 36px;
   }
 }
